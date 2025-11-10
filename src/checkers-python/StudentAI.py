@@ -28,23 +28,23 @@ class StudentAI():
         Negative score = bad for `color`.
         """
 
-        # Convert 1/2 → 'B'/'W'
+        # 1 and 2 to bw
         my = 'B' if color == 1 else 'W'
         opp = 'W' if color == 1 else 'B'
 
         my_score = 0
         opp_score = 0
 
-        # --- MATERIAL + KING VALUE ---
+        # kings worth a little more than normal pieces
         for i in range(self.board.row):
             for j in range(self.board.col):
-                chk = self.board.board[i][j]
-                if chk.color == my:
-                    my_score += 3 if chk.is_king else 1
-                elif chk.color == opp:
-                    opp_score += 3 if chk.is_king else 1
+                checker = self.board.board[i][j]
+                if checker.col == my:
+                    my_score += 3 if checker.is_king else 1
+                elif checker.color == opp:
+                    opp_score += 3 if checker.is_king else 1
 
-        # --- MOBILITY BONUS ---
+        # more potential moves = more points
         my_moves = self.board.get_all_possible_moves(color)
         opp_moves = self.board.get_all_possible_moves(self.opponent[color])
 
@@ -129,15 +129,14 @@ class StudentAI():
         move = self.minimax(self.color, -10000000, 1000000, 2)
 
         if move is None:
-            # Get all possible moves as fallback
+            # Get all possible moves
             possible = self.board.get_all_possible_moves(self.color)
-            
             if possible and len(possible) > 0 and len(possible[0]) > 0:
                 # Use the first available move
                 move = possible[0][0]
                 print("WARNING: Minimax returned None, using fallback move")
             else:
-                # No moves available at all - game is over
+                # No moves available
                 print("ERROR: No valid moves available!")
                 return None
         self.board.make_move(move, self.color)
