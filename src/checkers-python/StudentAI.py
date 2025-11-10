@@ -126,7 +126,7 @@ class StudentAI():
         # move = moves[index][inner_index]
         # self.board.make_move(move,self.color)
             
-        move = self.minimax(self.color, -10000000, 1000000, 2)
+        move = self.minimax(self.color, -10000000, 1000000, 3)
 
         if move is None:
             # Get all possible moves as fallback
